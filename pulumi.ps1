@@ -1,19 +1,23 @@
-using namespace Pulumi
 using namespace Pulumi.Azure.Core
-#Prepare the libraries for easy pwsh consumptions. The dotnet publish probably doesn't need to be done every time.
-#& dotnet publish -o pwsh
+#Prepare the libraries for easy pwsh import. The dotnet publish probably doesn't need to be done every time.
+#TODO: Use the C# scopes libraries maybe?
+
+#TODO:This could move into the C# Powershell Invoke initialization
+if (-not (test-path pwsh/Infra.dll)) {
+    & dotnet publish -o pwsh
+}
 add-type -path "./pwsh/*.dll"
 
-# NOTE: This currently fails with 
-$resourceGroup = [ResourceGroup]::new('test', $null, $null)
-
+#Create 3 resource groups, just to show off using Powershell constructs
 $outputs = @{}
-Get-ChildItem env: | where name -like 'PULUMI_*' | foreach {
-    $outputs[$PSItem.Name] = $PSItem.Value
+1..3 | foreach {
+    $rgName = "PulumiPSTestGroup$PSItem"
+    $resourceGroupArgs = [ResourceGroupArgs]@{
+        Location = 'westus2'
+        Name = $rgName
+    }
+    $resourceGroup = [ResourceGroup]::new($rgName, $resourceGroupArgs, $null)
+    $outputs."resourceGroup${psItem}Name" = $resourceGroup.Name
+    $outputs."resourceGroup${psItem}Location" = $resourceGroup.Location
 }
-
-$pulumiInstance = [Pulumi.Deployment]::Instance
-$Outputs.Instance_StackName = $pulumiInstance.stackName
-$Outputs.Instance_ProjectName = $pulumiInstance.projectname
-$Outputs.Instance_IsDryRun = $pulumiInstance.isDryRun
 return $outputs

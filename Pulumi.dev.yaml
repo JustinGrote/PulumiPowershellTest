@@ -1,2 +1,2 @@
 config:
-  azure:localhost: West US
+  azure:location: "West US"
