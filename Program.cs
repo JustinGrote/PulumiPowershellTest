@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
+﻿using Pulumi;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using Pulumi;
 using System.Management.Automation;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 // Used https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.PowerShellHost/PowerShellFunctionHost.cs as an inspiration
 
