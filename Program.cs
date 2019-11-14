@@ -16,8 +16,12 @@ class Program
         return Deployment.RunAsync(() => {
             using PowerShell powershellInstance = PowerShell.Create();
             string psScriptPath = Path.Combine(Directory.GetCurrentDirectory(),"pulumi.ps1");
+            //ExecutionPolicy is only relevant on Windows
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                powershellInstance.AddCommand("Set-ExecutionPolicy").AddArgument("RemoteSigned").AddParameter("Scope","CurrentUser");
+            }
+
             System.Console.WriteLine("Running Powershell Script " + psScriptPath);
-            powershellInstance.AddCommand("Set-ExecutionPolicy").AddArgument("RemoteSigned").AddParameter("Scope","CurrentUser");
             Collection<PSObject> psOutput = powershellInstance.AddScript(psScriptPath).Invoke();
 
             if (powershellInstance.Streams.Error.Count > 0) {
