@@ -19,7 +19,7 @@ class Program
             string psScriptPath = Path.Combine(Directory.GetCurrentDirectory(),"pulumi.ps1");
             //ExecutionPolicy is only relevant on Windows
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                powershellInstance.AddCommand("Set-ExecutionPolicy").AddArgument("RemoteSigned").AddParameter("Scope","CurrentUser");
+                powershellInstance.AddCommand("Set-ExecutionPolicy").AddArgument("RemoteSigned").AddParameter("Scope","Process");
             }
 
             System.Console.WriteLine("Running Powershell Script " + psScriptPath);
