@@ -1,5 +1,5 @@
 # PulumiPowershellTest
-This is a proof of concept to be able to use Powershell for Pulumi.
+This is a proof of concept to be able to use Powershell for Pulumi. Please look at the different branches of this repository for different examples.
 
 This requires all the same prerequisites as but does *not* need powershell preview to be installed (it will grab the runtime as part of the SDK)
 
